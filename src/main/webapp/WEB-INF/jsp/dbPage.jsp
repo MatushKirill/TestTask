@@ -1,5 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="kirill.model.TablesAndColums" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -8,27 +7,6 @@
     <title>Add goal</title>
     <%@ page isELIgnored="false" %>
     <style>
-        .text {
-            color: #b3b3b3;
-        }
-
-        .login-page {
-            width: 500px;
-            padding: 8% 0 0;
-            margin: auto;
-        }
-
-        .form {
-            position: relative;
-            z-index: 1;
-            background: #FFFFFF;
-            max-width: 360px;
-            margin: 0 auto 100px;
-            padding: 45px;
-            text-align: center;
-            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-        }
-
         .form select {
             font-family: "Roboto", sans-serif;
             outline: 0;
@@ -87,19 +65,6 @@
             display: none;
         }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        .container:before, .container:after {
-            content: "";
-            display: block;
-            clear: both;
-        }
-
         .container .info {
             margin: 50px auto;
             text-align: center;
@@ -138,35 +103,35 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        .error {
-            color: #ff0000;
+        table, tr, td {
+            border: solid;
+        }
+        tr{
+            width: 100%;
         }
 
-        .errorblock {
-            color: #000;
-            background-color: #ffEEEE;
-            border: 3px solid #ff0000;
-            padding: 8px;
-            margin: 16px;
+        tr {
+            padding: 10px
+        }
+
+        table {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-<div class="login-page">
-    <div class="form">
-        <form class="register-form">
-            <table>
-            <c:forEach items="${tables}" var="table">
-                <tr>
-                    <td>${table.name}</td>
-                </tr>
-                <c:forEach items="${tables.columns}" var="columns">
-                       <td>${columns}</td>
-                </c:forEach>
-            </c:forEach>
-            </table>
-        </form>
-    </div>
-</div>
+
+
+<c:forEach items="${tables}" var="table">
+    <table>
+        <tr>
+            <th style="text-align: center">${table.name}</th>
+        </tr>
+        <c:forEach items="${table.columns}" var="column">
+            <td>${column}</td>
+        </c:forEach>
+    </table>
+</c:forEach>
+
 </body>
 </html>

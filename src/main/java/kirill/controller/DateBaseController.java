@@ -1,6 +1,5 @@
 package kirill.controller;
 
-import kirill.dao.DbDao;
 import kirill.model.DatabaseProperties;
 import kirill.model.TableInfo;
 import kirill.service.TablesService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kirill on 24/10/16.
@@ -22,8 +20,6 @@ import java.util.Map;
 @Controller
 @SessionAttributes("tables")
 public class DateBaseController {
-    @Autowired
-    DbDao dbDao;
     @Autowired
     TablesService tablesService;
 
@@ -42,13 +38,13 @@ public class DateBaseController {
             return "welcomePage";
         }
         tablesService .refreshDatabase(dateBaseProperties);
-        List<TableInfo> tables= tablesService.createTable(dateBaseProperties);
+        List<TableInfo> tables= tablesService.getTable(dateBaseProperties);
         model.addAttribute("tables",tables);
         return "redirect:dbPage";
     }
     @RequestMapping(value = "/dbPage",method = RequestMethod.GET)
     public String showTables(){
-        
+
         return "dbPage";
     }
 

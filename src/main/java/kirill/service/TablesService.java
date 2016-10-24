@@ -17,7 +17,7 @@ import java.util.Map;
 public class TablesService {
     @Autowired
     DbDao dbDao;
-    public List<TableInfo> createTable( DatabaseProperties dateBaseProperties){
+    public List<TableInfo> getTable(DatabaseProperties dateBaseProperties){
 
         List<TableInfo>tables=new ArrayList<TableInfo>();
         List<String> tablesNames=dbDao.getTables(dateBaseProperties.getDbName());

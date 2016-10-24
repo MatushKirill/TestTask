@@ -5,7 +5,6 @@
 <html>
 <head>
     <title>Add goal</title>
-
     <style>
         .text{
             color: #b3b3b3;
