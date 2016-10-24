@@ -1,16 +1,13 @@
 package kirill.dao;
 
-import kirill.model.DateBaseProperties;
-import kirill.model.TablesAndColums;
+import kirill.model.DatabaseProperties;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,19 +21,22 @@ public class DbDao {
     private JdbcTemplate jdbcTemplate;
 
     public List<String> getTables(String dbName){
-                String sql="SELECT TABLE_NAME\n" +
-                        "FROM information_schema.COLUMNS \n" +
-                        "WHERE TABLE_SCHEMA NOT IN(\"information_schema\", \"mysql\", \"performance_schema\") AND TABLE_SCHEMA=?\n" +
-                        "ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION";
-        return jdbcTemplate.queryForList(sql,new Object[]{dbName},String.class);
+        try {
+            String sql="SELECT DISTINCT TABLE_NAME\n" +
+                    "FROM information_schema.COLUMNS \n" +
+                    "WHERE TABLE_SCHEMA NOT IN(\"information_schema\", \"mysql\", \"performance_schema\") AND TABLE_SCHEMA=?\n";
+            return jdbcTemplate.queryForList(sql,new Object[]{dbName},String.class);
+        }catch (CannotGetJdbcConnectionException e) {
+            System.out.println("error");
+        }
+        return null;
     }
 
     public List<String> getColumns(String dbName,String tableName){
-        String sql="SELECT  \n" +
+        String sql="SELECT DISTINCT  \n" +
                 "       COLUMN_NAME\n" +
                 "FROM information_schema.COLUMNS \n" +
-                "WHERE TABLE_SCHEMA NOT IN(\"information_schema\", \"mysql\", \"performance_schema\") AND TABLE_SCHEMA=? and table_name=?\n" +
-                "ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION";
+                "WHERE TABLE_SCHEMA NOT IN(\"information_schema\", \"mysql\", \"performance_schema\") AND TABLE_SCHEMA=? and table_name=?\n";
         return jdbcTemplate.queryForList(sql,new Object[]{dbName,tableName},String.class);
     }
 
@@ -44,7 +44,7 @@ public class DbDao {
         return dataSource;
     }
 
-    public void setDataSource(DateBaseProperties properties) {
+    public void setDataSource(DatabaseProperties properties) {
         dataSource=new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUsername(properties.getUserName());
@@ -57,20 +57,4 @@ public class DbDao {
         return jdbcTemplate;
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-    private static final class dbMap implements RowMapper<TablesAndColums> {
-
-        public TablesAndColums mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-            TablesAndColums tablesAndColums=new TablesAndColums();
-            tablesAndColums.setTableName(resultSet.getString("TABLE_NAME"));
-            tablesAndColums.setColumnName(resultSet.getString("COLUMN_NAME"));
-
-
-            return tablesAndColums;
-
-
-        }
-    }
 }

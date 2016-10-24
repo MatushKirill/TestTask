@@ -156,13 +156,8 @@
 <div class="login-page">
     <div class="form">
         <form class="register-form">
-            <c:forEach var="table" items="${}">
-                <tr>
-                    <td>${column}</td>
-                    <td>${person.age}</td>
-                    <td>${person.height}</td>
-                </tr>
-            </c:forEach>
+
+
         </form>
     </div>
 </div>

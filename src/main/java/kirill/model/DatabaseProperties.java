@@ -1,12 +1,15 @@
 package kirill.model;
 
+import kirill.validation.DbExist;
+
 /**
  * Created by kirill on 24/10/16.
  */
-public class DateBaseProperties {
+public class DatabaseProperties {
+    @DbExist
     private String dbName;
     private String userName;
-        private String password;
+    private String password;
 
 
     public String getDbName() {

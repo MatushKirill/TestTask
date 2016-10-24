@@ -1,11 +1,10 @@
 package kirill.controller;
 
 import kirill.dao.DbDao;
-import kirill.model.DateBaseProperties;
-import kirill.model.TablesAndColums;
-import kirill.service.CreateTables;
+import kirill.model.DatabaseProperties;
+import kirill.model.TableInfo;
+import kirill.service.TablesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -28,24 +25,29 @@ public class DateBaseController {
     @Autowired
     DbDao dbDao;
     @Autowired
-    CreateTables createTables;
+    TablesService tablesService;
 
 
     @RequestMapping(value = "/welcome",method = RequestMethod.GET)
     public String enterProp(Model model){
 
-        model.addAttribute("dbProp",new DateBaseProperties());
+        model.addAttribute("dbProp",new DatabaseProperties());
         return "welcomePage";
     }
 
     @RequestMapping(value = "/welcome",method = RequestMethod.POST)
-    public String getDb(@ModelAttribute("dbProp") DateBaseProperties dateBaseProperties, BindingResult result, Model model
+    public String getDb(@ModelAttribute("dbProp") DatabaseProperties dateBaseProperties, BindingResult result, Model model
                         ){
-        dbDao.setDataSource(dateBaseProperties);
-        List<String> tablesNames=dbDao.getTables(dateBaseProperties.getDbName());
-        Map<String,List<String>> tables=createTables.create(tablesNames,dateBaseProperties.getDbName());
+        if (result.hasErrors()){
+            return "welcomePage";
+        }
+        tablesService .refreshDatabase(dateBaseProperties);
+        List<TableInfo> tables= tablesService.createTable(dateBaseProperties);
         model.addAttribute("tables",tables);
-        System.out.println(tables);
+        for (TableInfo table:tables) {
+            table.getName();
+
+        }
         return "redirect:dbPage";
     }
 
