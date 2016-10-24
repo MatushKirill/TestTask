@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -32,12 +33,12 @@ public class DateBaseController {
     }
 
     @RequestMapping(value = "/welcome",method = RequestMethod.POST)
-    public String getDb(@ModelAttribute("dbProp") DatabaseProperties dateBaseProperties, BindingResult result, Model model
+    public String getDb(@Valid @ModelAttribute("dbProp") DatabaseProperties dateBaseProperties, BindingResult result, Model model
                         ){
+        tablesService .refreshDatabase(dateBaseProperties);
         if (result.hasErrors()){
             return "welcomePage";
         }
-        tablesService .refreshDatabase(dateBaseProperties);
         List<TableInfo> tables= tablesService.getTable(dateBaseProperties);
         model.addAttribute("tables",tables);
         return "redirect:dbPage";

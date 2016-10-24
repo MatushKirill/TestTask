@@ -1,14 +1,18 @@
 package kirill.model;
 
 import kirill.validation.DbExist;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by kirill on 24/10/16.
  */
 public class DatabaseProperties {
-    @DbExist
+//    @DbExist
+    @NotEmpty
     private String dbName;
+    @NotEmpty
     private String userName;
+    @NotEmpty
     private String password;
 
 

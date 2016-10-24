@@ -26,7 +26,7 @@ public class DbDao {
                     "FROM information_schema.COLUMNS \n" +
                     "WHERE TABLE_SCHEMA NOT IN(\"information_schema\", \"mysql\", \"performance_schema\") AND TABLE_SCHEMA=?\n";
             return jdbcTemplate.queryForList(sql,new Object[]{dbName},String.class);
-        }catch (CannotGetJdbcConnectionException e) {
+        }catch (Exception e) {
             System.out.println("error");
         }
         return null;

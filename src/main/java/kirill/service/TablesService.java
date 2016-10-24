@@ -17,20 +17,26 @@ import java.util.Map;
 public class TablesService {
     @Autowired
     DbDao dbDao;
-    public List<TableInfo> getTable(DatabaseProperties dateBaseProperties){
 
-        List<TableInfo>tables=new ArrayList<TableInfo>();
-        List<String> tablesNames=dbDao.getTables(dateBaseProperties.getDbName());
-        for (String tableName :tablesNames){
-            TableInfo table=new TableInfo();
+    public List<TableInfo> getTable(DatabaseProperties dateBaseProperties) {
+
+        List<TableInfo> tables = new ArrayList<TableInfo>();
+        List<String> tablesNames = dbDao.getTables(dateBaseProperties.getDbName());
+        if (!tablesNames.isEmpty()) {
+            for (String tableName : tablesNames) {
+                TableInfo table = new TableInfo();
                 List<String> columns = dbDao.getColumns(dateBaseProperties.getDbName(), tableName);
                 table.setName(tableName);
                 table.setColumns(columns);
                 tables.add(table);
+            }
+            return tables;
         }
-        return tables;
+        return null;
+
     }
-    public void refreshDatabase(DatabaseProperties dateBaseProperties){
+
+    public void refreshDatabase(DatabaseProperties dateBaseProperties) {
         dbDao.setDataSource(dateBaseProperties);
     }
 }

@@ -147,7 +147,7 @@
                     </tr>
                     <tr>
                         <td class="message">password</td>
-                        <td ><form:input path="password"  cssErrorClass="error"/></td>
+                        <td ><form:password path="password"  cssErrorClass="error"/></td>
                     </tr>
                 </table>
                 <button type="submit">create</button>
