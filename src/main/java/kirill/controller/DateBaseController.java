@@ -23,6 +23,7 @@ import java.util.Map;
  * Created by kirill on 24/10/16.
  */
 @Controller
+@SessionAttributes("tables")
 public class DateBaseController {
     @Autowired
     DbDao dbDao;
@@ -39,11 +40,11 @@ public class DateBaseController {
 
     @RequestMapping(value = "/welcome",method = RequestMethod.POST)
     public String getDb(@ModelAttribute("dbProp") DateBaseProperties dateBaseProperties, BindingResult result, Model model
-                        , HttpServletRequest request){
+                        ){
         dbDao.setDataSource(dateBaseProperties);
         List<String> tablesNames=dbDao.getTables(dateBaseProperties.getDbName());
         Map<String,List<String>> tables=createTables.create(tablesNames,dateBaseProperties.getDbName());
-        request.setAttribute("tables",tables);
+        model.addAttribute("tables",tables);
         System.out.println(tables);
         return "redirect:dbPage";
     }

@@ -19,9 +19,15 @@ public class CreateTables {
     DbDao dbDao;
     public Map<String,List<String>> create(List<String> list,String dbName){
         Map<String,List<String>> tables=new HashMap<String, List<String>>();
+        String currentName="";
         for (String s:list){
-            List<String> columns=dbDao.getColumns(dbName,s);
-            tables.put(s,columns);
+            if (s!=currentName) {
+                List<String> columns = dbDao.getColumns(dbName, s);
+                currentName = s;
+                tables.put(s, columns);
+            }else {
+                continue;
+            }
         }
         return tables;
     }

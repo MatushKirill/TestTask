@@ -156,15 +156,13 @@
 <div class="login-page">
     <div class="form">
         <form class="register-form">
-            <c:forEach var="table" items="${tables}">
+            <c:forEach var="table" items="${}">
                 <tr>
                     <td>${column}</td>
                     <td>${person.age}</td>
                     <td>${person.height}</td>
                 </tr>
             </c:forEach>
-            <button type="submit">create</button>
-            <p class="message">Already registered? <a href="login">Sign In</a></p>
         </form>
     </div>
 </div>

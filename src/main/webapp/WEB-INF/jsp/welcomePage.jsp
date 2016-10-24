@@ -152,7 +152,6 @@
                     </tr>
                 </table>
                 <button type="submit">create</button>
-                <p class="message">Already registered? <a href="login">Sign In</a></p>
             </form>
         </div>
     </div>
