@@ -152,12 +152,19 @@
     </style>
 </head>
 <body>
-<%List<TablesAndColums> tables= (List<TablesAndColums>) request.getAttribute("tables");%>
 <div class="login-page">
     <div class="form">
         <form class="register-form">
-
-
+            <table>
+            <c:forEach items="${tables}" var="table">
+                <tr>
+                    <td>${table.name}</td>
+                </tr>
+                <c:forEach items="${tables.columns}" var="columns">
+                       <td>${columns}</td>
+                </c:forEach>
+            </c:forEach>
+            </table>
         </form>
     </div>
 </div>

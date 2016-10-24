@@ -44,11 +44,12 @@ public class DateBaseController {
         tablesService .refreshDatabase(dateBaseProperties);
         List<TableInfo> tables= tablesService.createTable(dateBaseProperties);
         model.addAttribute("tables",tables);
-        for (TableInfo table:tables) {
-            table.getName();
-
-        }
         return "redirect:dbPage";
+    }
+    @RequestMapping(value = "/dbPage",method = RequestMethod.GET)
+    public String showTables(){
+        
+        return "dbPage";
     }
 
 
