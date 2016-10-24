@@ -18,10 +18,11 @@ public class TablesService {
     @Autowired
     DbDao dbDao;
     public List<TableInfo> createTable( DatabaseProperties dateBaseProperties){
-        TableInfo table=new TableInfo();
+
         List<TableInfo>tables=new ArrayList<TableInfo>();
         List<String> tablesNames=dbDao.getTables(dateBaseProperties.getDbName());
         for (String tableName :tablesNames){
+            TableInfo table=new TableInfo();
                 List<String> columns = dbDao.getColumns(dateBaseProperties.getDbName(), tableName);
                 table.setName(tableName);
                 table.setColumns(columns);
