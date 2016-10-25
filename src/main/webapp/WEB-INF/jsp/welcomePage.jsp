@@ -150,7 +150,7 @@
                         <td ><form:password path="password"  cssErrorClass="error"/></td>
                     </tr>
                 </table>
-                <button type="submit">create</button>
+                <button type="submit">Get Info</button>
             </form>
         </div>
     </div>
