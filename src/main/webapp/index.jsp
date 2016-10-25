@@ -110,7 +110,7 @@
     </style>
 </head>
 <body>
-<h3>Welome</h3>
+<h3>Welcome</h3>
 <a href="welcome">
     welcomePage>>
 </a>
