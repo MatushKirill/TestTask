@@ -3,6 +3,7 @@ package kirill.controller;
 import kirill.model.DatabaseProperties;
 import kirill.model.TableInfo;
 import kirill.service.TablesService;
+import kirill.validation.DbValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ import java.util.List;
 public class DateBaseController {
     @Autowired
     TablesService tablesService;
+    @Autowired
+    DbValidator dbValidator;
 
 
     @RequestMapping(value = "/welcome",method = RequestMethod.GET)
@@ -36,6 +39,7 @@ public class DateBaseController {
     public String getDb(@Valid @ModelAttribute("dbProp") DatabaseProperties dateBaseProperties, BindingResult result, Model model
                         ){
         tablesService .refreshDatabase(dateBaseProperties);
+        dbValidator.validate(dateBaseProperties,result);
         if (result.hasErrors()){
             return "welcomePage";
         }
